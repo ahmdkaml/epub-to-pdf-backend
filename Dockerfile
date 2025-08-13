@@ -17,7 +17,7 @@ WORKDIR /app
 COPY app/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy app code
+# Copy backend code
 COPY app/ /app
 
 # Expose API port
