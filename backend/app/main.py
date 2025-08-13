@@ -5,6 +5,8 @@ import subprocess
 import os
 import uuid
 
+import uvicorn
+
 app = FastAPI()
 
 # Allow frontend requests from any origin (change later for production security)
@@ -38,3 +40,7 @@ async def convert_epub_to_pdf(file: UploadFile = File(...)):
 
     # Return the PDF file for download
     return FileResponse(output_filename, media_type="application/pdf", filename="converted.pdf")
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=False)
