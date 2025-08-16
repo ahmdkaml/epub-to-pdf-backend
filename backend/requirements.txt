@@ -1,0 +1,6 @@
+fastapi
+uvicorn[standard]
+ebooklib
+beautifulsoup4
+reportlab
+lxml
