@@ -18,4 +18,5 @@ COPY backend/ .
 EXPOSE 8000
 
 # Run uvicorn on the port Railway sets
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "${PORT}"]
+CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}"]
+
