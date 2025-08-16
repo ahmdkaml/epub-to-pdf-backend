@@ -1,27 +1,16 @@
-# Base Python image
 FROM python:3.11-slim
 
-# Install system dependencies for Calibre
-RUN apt-get update && apt-get install -y \
-    wget xz-utils libgl1 libegl1 libxcb1 \
-    libx11-6 libxrender1 libxext6 libxi6 \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install Calibre
-RUN wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sh /dev/stdin
-
-# Set working directory
 WORKDIR /app
 
-# Copy requirements and install Python dependencies
-COPY app/requirements.txt .
+# Install only what’s needed
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libxml2 libxslt1.1 libffi8 \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy backend code
-COPY app/ /app
+COPY backend/ .
 
-# Expose API port
 EXPOSE 8000
-
-# Start FastAPI
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
